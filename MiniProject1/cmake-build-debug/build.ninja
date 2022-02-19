@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: KCSP
+# Project: MiniProject1
 # Configurations: Debug
 # =============================================================================
 
@@ -39,13 +39,13 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /Users/nieb/Documents/KCSP/KCSP/cmake-build-debug/
+cmake_ninja_workdir = /Users/nieb/Documents/KCSP/KCSP/MiniProject1/cmake-build-debug/
 
 #############################################
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/nieb/Documents/KCSP/KCSP/cmake-build-debug && "/Users/nieb/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/213.6777.58/CLion.app/Contents/bin/cmake/mac/bin/cmake" --regenerate-during-build -S/Users/nieb/Documents/KCSP/KCSP -B/Users/nieb/Documents/KCSP/KCSP/cmake-build-debug
+  COMMAND = cd /Users/nieb/Documents/KCSP/KCSP/MiniProject1/cmake-build-debug && "/Users/nieb/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/213.6777.58/CLion.app/Contents/bin/cmake/mac/bin/cmake" --regenerate-during-build -S/Users/nieb/Documents/KCSP/KCSP/MiniProject1 -B/Users/nieb/Documents/KCSP/KCSP/MiniProject1/cmake-build-debug
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -57,45 +57,64 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/nieb/Documents/KCSP/KCSP/cmake-build-debug && "/Users/nieb/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/213.6777.58/CLion.app/Contents/bin/cmake/mac/bin/cmake" -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/nieb/Documents/KCSP/KCSP/MiniProject1/cmake-build-debug && "/Users/nieb/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/213.6777.58/CLion.app/Contents/bin/cmake/mac/bin/cmake" -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
 build edit_cache: phony CMakeFiles/edit_cache.util
 
 # =============================================================================
-# Object build statements for EXECUTABLE target KCSP
+# Object build statements for EXECUTABLE target MiniProject1
 
 
 #############################################
-# Order-only phony target for KCSP
+# Order-only phony target for MiniProject1
 
-build cmake_object_order_depends_target_KCSP: phony || CMakeFiles/KCSP.dir
+build cmake_object_order_depends_target_MiniProject1: phony || CMakeFiles/MiniProject1.dir
 
-build CMakeFiles/KCSP.dir/MiniProject1/DataGenerator.cpp.o: CXX_COMPILER__KCSP_Debug /Users/nieb/Documents/KCSP/KCSP/MiniProject1/DataGenerator.cpp || cmake_object_order_depends_target_KCSP
-  DEP_FILE = CMakeFiles/KCSP.dir/MiniProject1/DataGenerator.cpp.o.d
+build CMakeFiles/MiniProject1.dir/Concurrent_Partitioning_Algorithm.cpp.o: CXX_COMPILER__MiniProject1_Debug /Users/nieb/Documents/KCSP/KCSP/MiniProject1/Concurrent_Partitioning_Algorithm.cpp || cmake_object_order_depends_target_MiniProject1
+  DEP_FILE = CMakeFiles/MiniProject1.dir/Concurrent_Partitioning_Algorithm.cpp.o.d
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -std=gnu++14
-  OBJECT_DIR = CMakeFiles/KCSP.dir
-  OBJECT_FILE_DIR = CMakeFiles/KCSP.dir/MiniProject1
-  TARGET_COMPILE_PDB = CMakeFiles/KCSP.dir/
-  TARGET_PDB = KCSP.pdb
+  INCLUDES = -I/Users/nieb/Documents/KCSP/KCSP/MiniProject1/.
+  OBJECT_DIR = CMakeFiles/MiniProject1.dir
+  OBJECT_FILE_DIR = CMakeFiles/MiniProject1.dir
+  TARGET_COMPILE_PDB = CMakeFiles/MiniProject1.dir/
+  TARGET_PDB = MiniProject1.pdb
+
+build CMakeFiles/MiniProject1.dir/Main.cpp.o: CXX_COMPILER__MiniProject1_Debug /Users/nieb/Documents/KCSP/KCSP/MiniProject1/Main.cpp || cmake_object_order_depends_target_MiniProject1
+  DEP_FILE = CMakeFiles/MiniProject1.dir/Main.cpp.o.d
+  FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -std=gnu++14
+  INCLUDES = -I/Users/nieb/Documents/KCSP/KCSP/MiniProject1/.
+  OBJECT_DIR = CMakeFiles/MiniProject1.dir
+  OBJECT_FILE_DIR = CMakeFiles/MiniProject1.dir
+  TARGET_COMPILE_PDB = CMakeFiles/MiniProject1.dir/
+  TARGET_PDB = MiniProject1.pdb
+
+build CMakeFiles/MiniProject1.dir/TupleGenerator.cpp.o: CXX_COMPILER__MiniProject1_Debug /Users/nieb/Documents/KCSP/KCSP/MiniProject1/TupleGenerator.cpp || cmake_object_order_depends_target_MiniProject1
+  DEP_FILE = CMakeFiles/MiniProject1.dir/TupleGenerator.cpp.o.d
+  FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk -std=gnu++14
+  INCLUDES = -I/Users/nieb/Documents/KCSP/KCSP/MiniProject1/.
+  OBJECT_DIR = CMakeFiles/MiniProject1.dir
+  OBJECT_FILE_DIR = CMakeFiles/MiniProject1.dir
+  TARGET_COMPILE_PDB = CMakeFiles/MiniProject1.dir/
+  TARGET_PDB = MiniProject1.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target KCSP
+# Link build statements for EXECUTABLE target MiniProject1
 
 
 #############################################
-# Link the executable KCSP
+# Link the executable MiniProject1
 
-build KCSP: CXX_EXECUTABLE_LINKER__KCSP_Debug CMakeFiles/KCSP.dir/MiniProject1/DataGenerator.cpp.o
+build MiniProject1: CXX_EXECUTABLE_LINKER__MiniProject1_Debug CMakeFiles/MiniProject1.dir/Concurrent_Partitioning_Algorithm.cpp.o CMakeFiles/MiniProject1.dir/Main.cpp.o CMakeFiles/MiniProject1.dir/TupleGenerator.cpp.o
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk
-  OBJECT_DIR = CMakeFiles/KCSP.dir
+  OBJECT_DIR = CMakeFiles/MiniProject1.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = CMakeFiles/KCSP.dir/
-  TARGET_FILE = KCSP
-  TARGET_PDB = KCSP.pdb
+  TARGET_COMPILE_PDB = CMakeFiles/MiniProject1.dir/
+  TARGET_FILE = MiniProject1
+  TARGET_PDB = MiniProject1.pdb
 
 # =============================================================================
 # Target aliases.
@@ -106,9 +125,9 @@ build KCSP: CXX_EXECUTABLE_LINKER__KCSP_Debug CMakeFiles/KCSP.dir/MiniProject1/D
 # =============================================================================
 
 #############################################
-# Folder: /Users/nieb/Documents/KCSP/KCSP/cmake-build-debug
+# Folder: /Users/nieb/Documents/KCSP/KCSP/MiniProject1/cmake-build-debug
 
-build all: phony KCSP
+build all: phony MiniProject1
 
 # =============================================================================
 # Built-in targets

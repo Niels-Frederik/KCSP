@@ -1,0 +1,10 @@
+#ifndef MINIPROJECT1_INDEPENDENT_PARTITIONING_ALGORITHM_H
+#define MINIPROJECT1_INDEPENDENT_PARTITIONING_ALGORITHM_H
+
+
+class Independent_Partitioning_Algorithm {
+
+};
+
+
+#endif

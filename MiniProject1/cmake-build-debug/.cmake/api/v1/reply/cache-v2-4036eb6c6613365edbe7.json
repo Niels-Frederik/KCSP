@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/nieb/Documents/KCSP/KCSP/cmake-build-debug"
+			"value" : "/Users/nieb/Documents/KCSP/KCSP/MiniProject1/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -515,7 +515,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/nieb/Documents/KCSP/KCSP"
+			"value" : "/Users/nieb/Documents/KCSP/KCSP/MiniProject1"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -795,7 +795,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "KCSP"
+			"value" : "MiniProject1"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1078,7 +1078,7 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "KCSP_BINARY_DIR",
+			"name" : "MiniProject1_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1087,10 +1087,10 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/nieb/Documents/KCSP/KCSP/cmake-build-debug"
+			"value" : "/Users/nieb/Documents/KCSP/KCSP/MiniProject1/cmake-build-debug"
 		},
 		{
-			"name" : "KCSP_IS_TOP_LEVEL",
+			"name" : "MiniProject1_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1102,7 +1102,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "KCSP_SOURCE_DIR",
+			"name" : "MiniProject1_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1111,7 +1111,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/nieb/Documents/KCSP/KCSP"
+			"value" : "/Users/nieb/Documents/KCSP/KCSP/MiniProject1"
 		}
 	],
 	"kind" : "cache",

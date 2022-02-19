@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "KCSP"
+			"path" : "MiniProject1"
 		}
 	],
 	"backtrace" : 1,
@@ -10,7 +10,8 @@
 	{
 		"commands" : 
 		[
-			"add_executable"
+			"add_executable",
+			"include_directories"
 		],
 		"files" : 
 		[
@@ -23,6 +24,12 @@
 			},
 			{
 				"command" : 0,
+				"file" : 0,
+				"line" : 8,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
 				"file" : 0,
 				"line" : 6,
 				"parent" : 0
@@ -41,6 +48,13 @@
 					"fragment" : "-std=gnu++14"
 				}
 			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/Users/nieb/Documents/KCSP/KCSP/MiniProject1/."
+				}
+			],
 			"language" : "CXX",
 			"languageStandard" : 
 			{
@@ -52,11 +66,13 @@
 			},
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				2,
+				3
 			]
 		}
 	],
-	"id" : "KCSP::@6890427a1f51a3e7e1df",
+	"id" : "MiniProject1::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -72,8 +88,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "KCSP",
-	"nameOnDisk" : "KCSP",
+	"name" : "MiniProject1",
+	"nameOnDisk" : "MiniProject1",
 	"paths" : 
 	{
 		"build" : ".",
@@ -85,7 +101,17 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				2,
+				3
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1,
+				4
 			]
 		}
 	],
@@ -94,8 +120,30 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "MiniProject1/DataGenerator.cpp",
+			"path" : "Concurrent_Partitioning_Algorithm.cpp",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Concurrent_Partitioning_Algorithm.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "TupleGenerator.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "TupleGenerator.h",
+			"sourceGroupIndex" : 1
 		}
 	],
 	"type" : "EXECUTABLE"
