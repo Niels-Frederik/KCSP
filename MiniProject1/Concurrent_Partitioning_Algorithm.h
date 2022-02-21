@@ -8,7 +8,8 @@ using namespace std;
 
 class Concurrent_Partitioning_Algorithm {
 public:
-    void Partition(vector<tuple<int,int>> tuples, int threadCount);
+    void ConcurrentPartition(vector<tuple<int,int>> tuples, int threadCount);
+    static void Process(vector<tuple<int,int>> tuples, int from, int to);
 };
 
 
