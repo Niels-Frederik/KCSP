@@ -9,7 +9,7 @@ int main()
 {
     TupleGenerator tg;
     //vector<tuple<int,int>> tuples = tg.GenerateTuples(1000000000);
-    vector<tuple<int,int>> tuples = tg.GenerateTuples(10000000);
+    vector<tuple<int,int>> tuples = tg.GenerateTuples(100000000);
     cout << "Done generating tuples" << endl;
     Concurrent_Partitioning_Algorithm cpa;
     Independent_Partitioning_Algorithm ipa;

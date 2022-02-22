@@ -11,8 +11,7 @@ using namespace std;
 
 vector<tuple<int,int>>** bufferArr;
 vector<std::thread> threads;
-atomic_int writeLock(0);
-atomic_int* writeLockArr;
+atomic_int** writeLockArr;
 
 uint32_t hashing(int x, int hashBitNumber) {
     const std::uint32_t knuth = 2654435769;
@@ -26,30 +25,38 @@ void Concurrent_Partitioning_Algorithm::Process(vector<tuple<int,int>> tuples, i
         //tuple<int,int> tempValueForVisualization = make_tuple(i,i);
         uint32_t hash = hashing(get<0>(tuples[i]), hashBits);
 
-        bufferArr[0]->emplace_back(tuples[i]);
-        bufferArr[hash][0][writeLockArr[hash]++] = tuples[i];
+        //bufferArr[0]->emplace_back(tuples[i]);
+        auto writeIndex = writeLockArr[hash]->fetch_add(1);
+        //bufferArr[hash]->emplace_back(tuples[i]);
+        //bufferArr[hash]->emplace_back(tuples[i]);
+        (*bufferArr[hash])[writeIndex] = tuples[i];
+
+        //*bufferArr[hash] = tuples[i]);
+
+        //auto x = *bufferArr[hash];
+        //auto y = &x;
+        //x[0] = tuples[i];
+        //
+        //vector<int> ve;
+        //ve[1] = 2;
+        //bufferArr[hash][0][writeLockArr[hash]++] = tuples[i];
         //buffer[writeIndex++] = tempValueForVisualization;
     }
 }
 
 void Concurrent_Partitioning_Algorithm::ConcurrentPartition(vector<tuple<int, int>> tuples, int threadCount, int hashBits) {
-    int size = pow(2, hashBits);
-    //int size = 2;
-    bufferArr = new vector<tuple<int,int>>*[size];
-    writeLockArr = new atomic_int [size];
+    int partitions = pow(2, hashBits);
 
-    for(int i = 0; i < size; i++)
+    bufferArr = new vector<tuple<int,int>>*[partitions];
+    writeLockArr = new atomic_int*[partitions];
+
+    for(int i = 0; i < partitions; i++)
     {
-        //writeLockArr[i] new atomic_int (0);
+        writeLockArr[i] = new atomic_int (0);
         //vector<tuple<int,int>>* vect = new vector<tuple<int,int>>;
         bufferArr[i] = new vector<tuple<int,int>>;
+        bufferArr[i]->reserve(tuples.size()/partitions+(tuples.size() * 0.1));
     }
-
-    //bufferArr = new vector<tuple<int,int>>*;
-
-    //vector<tuple<int,int>>* bufferArr[size];
-    //bufferArr = new tuple<vector<int,int>>*;
-
 
     int amountInEach = tuples.size()/threadCount;
     int previousLast = 0;
