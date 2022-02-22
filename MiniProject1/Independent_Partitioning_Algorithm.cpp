@@ -1,17 +1,13 @@
 #include "Independent_Partitioning_Algorithm.h"
 #include<thread>
 #include<vector>
-#include<iostream>
-#include<future>
-#include<random>
 #include<math.h>
 
 using namespace std;
 
 vector<std::thread> threadList;
 
-//hashbitnumber must be between 1 and 32
-uint32_t multiplicativeHash(int x, int hashBitNumber) {
+static uint32_t multiplicativeHash(int x, int hashBitNumber) {
     const std::uint32_t knuth = 2654435769;
     const std::uint32_t y = x;
     return (y * knuth) >> (32 - hashBitNumber);
@@ -19,8 +15,6 @@ uint32_t multiplicativeHash(int x, int hashBitNumber) {
 
 void Independent_Partitioning_Algorithm::IndependentProcess(vector<tuple<int,int>> tuples, int from, int to, int hashBits)  {
     int partitions = pow (2, hashBits);
-    //tuple<int,int> buffer[to-from+1];
-    //If the stack is large enough on the test computer, we can get away with the above
     vector<tuple<int,int>>* bufferArr[partitions];
     for(int i = 0; i < (partitions); i++)
     {
@@ -42,7 +36,6 @@ void Independent_Partitioning_Algorithm::IndependentPartition(vector<tuple<int, 
     while(threadCount--)
     {
         int to = previousLast+amountInEach;
-        cout << "start thread " << " "  << "from " << previousLast << " to " << to << endl;
         threadList.emplace_back(thread(IndependentProcess, tuples, previousLast, to, hashBits));
         previousLast = to;
     }

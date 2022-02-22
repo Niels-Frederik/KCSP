@@ -7,16 +7,23 @@ using namespace std;
 
 int main()
 {
+    const int TUPLES = 10000000;
+    const int THREADS = 4;
+    const int HASHBITS = 3;
+
     TupleGenerator tg;
-    //vector<tuple<int,int>> tuples = tg.GenerateTuples(1000000000);
-    vector<tuple<int,int>> tuples = tg.GenerateTuples(100000000);
-    cout << "Done generating tuples" << endl;
     Concurrent_Partitioning_Algorithm cpa;
     Independent_Partitioning_Algorithm ipa;
+
+    vector<tuple<int,int>> tuples = tg.GenerateTuples(TUPLES);
     auto start = std::chrono::high_resolution_clock::now();
-    //cpa.ConcurrentPartition(tuples, 4, 3);
-    ipa.IndependentPartition(tuples, 4, 3);
+    cpa.ConcurrentPartition(tuples, THREADS, HASHBITS);
     auto finish = std::chrono::high_resolution_clock::now();
-    auto microseconds = std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
-    cout << microseconds.count() << "ms\n";
+    auto microseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start);
+    cout << "Concurrent: " << microseconds.count() << "ns\n";
+    start = std::chrono::high_resolution_clock::now();
+    ipa.IndependentPartition(tuples, THREADS, HASHBITS);
+    finish = std::chrono::high_resolution_clock::now();
+    microseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start);
+    cout << "Independent: " << microseconds.count() << "ns\n";
 }
