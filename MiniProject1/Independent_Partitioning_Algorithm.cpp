@@ -13,12 +13,12 @@ static uint32_t multiplicativeHash(int x, int hashBitNumber) {
     return (y * knuth) >> (32 - hashBitNumber);
 }
 
-void Independent_Partitioning_Algorithm::IndependentProcess(vector<tuple<int,int>> tuples, int from, int to, int hashBits)  {
+void Independent_Partitioning_Algorithm::IndependentProcess(vector<tuple<int,int> > tuples, int from, int to, int hashBits)  {
     int partitions = pow (2, hashBits);
-    vector<tuple<int,int>>* bufferArr[partitions];
+    vector<tuple<int,int> >* bufferArr[partitions];
     for(int i = 0; i < (partitions); i++)
     {
-        vector<tuple<int,int>>* vect = new vector<tuple<int,int>>;
+        vector<tuple<int,int> >* vect = new vector<tuple<int,int> >;
         vect->reserve(to-from/partitions);
         bufferArr[i] = vect;
     }
@@ -30,7 +30,7 @@ void Independent_Partitioning_Algorithm::IndependentProcess(vector<tuple<int,int
     }
 }
 
-void Independent_Partitioning_Algorithm::IndependentPartition(vector<tuple<int, int>> tuples, int threadCount, int hashBits) {
+void Independent_Partitioning_Algorithm::IndependentPartition(vector<tuple<int, int> > tuples, int threadCount, int hashBits) {
     int amountInEach = tuples.size()/threadCount;
     int previousLast = 0;
     while(threadCount--)

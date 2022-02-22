@@ -5,9 +5,11 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
     const int TUPLES = 10000000;
+    //const int THREADS = *argv[0];
+    //const int HASHBITS = *argv[1];
     const int THREADS = 4;
     const int HASHBITS = 3;
 
@@ -15,7 +17,7 @@ int main()
     Concurrent_Partitioning_Algorithm cpa;
     Independent_Partitioning_Algorithm ipa;
 
-    vector<tuple<int,int>> tuples = tg.GenerateTuples(TUPLES);
+    auto tuples = tg.GenerateTuples(TUPLES);
     auto start = std::chrono::high_resolution_clock::now();
     cpa.ConcurrentPartition(tuples, THREADS, HASHBITS);
     auto finish = std::chrono::high_resolution_clock::now();
