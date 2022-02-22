@@ -21,24 +21,17 @@ void Independent_Partitioning_Algorithm::IndependentProcess(vector<tuple<int,int
     int partitions = pow (2, hashBits);
     //tuple<int,int> buffer[to-from+1];
     //If the stack is large enough on the test computer, we can get away with the above
-
-    //Dont think we can get away with an array here right, as we can have more tuples in some partitions than others
-    //tuple<int,int>* buffer = new tuple<int,int>[to-from];
     vector<tuple<int,int>>* bufferArr[partitions];
     for(int i = 0; i < (partitions); i++)
     {
         vector<tuple<int,int>>* vect = new vector<tuple<int,int>>;
-        //not correct
-        vect->reserve(1);
-        //vector<tuple<int,int>> vect2;
+        vect->reserve(to-from/partitions);
         bufferArr[i] = vect;
     }
 
     for (int i = from; i < to; i++)
     {
-        //tuple<int,int> tempValueForVisualization = make_tuple(i,i);
         int partition = multiplicativeHash(get<0>(tuples[i]), hashBits);
-
         bufferArr[partition]->emplace_back(tuples[i]);
     }
 }

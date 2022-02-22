@@ -11,7 +11,8 @@ using namespace std;
 
 vector<tuple<int,int>>** bufferArr;
 vector<std::thread> threads;
-atomic<int> writeIndex(0);
+atomic_int writeLock(0);
+atomic_int* writeLockArr;
 
 uint32_t hashing(int x, int hashBitNumber) {
     const std::uint32_t knuth = 2654435769;
@@ -24,19 +25,24 @@ void Concurrent_Partitioning_Algorithm::Process(vector<tuple<int,int>> tuples, i
     {
         //tuple<int,int> tempValueForVisualization = make_tuple(i,i);
         uint32_t hash = hashing(get<0>(tuples[i]), hashBits);
-        bufferArr[hash]->emplace_back(tuples[i]);
+
+        bufferArr[0]->emplace_back(tuples[i]);
+        bufferArr[hash][0][writeLockArr[hash]++] = tuples[i];
         //buffer[writeIndex++] = tempValueForVisualization;
     }
 }
 
 void Concurrent_Partitioning_Algorithm::ConcurrentPartition(vector<tuple<int, int>> tuples, int threadCount, int hashBits) {
     int size = pow(2, hashBits);
+    //int size = 2;
     bufferArr = new vector<tuple<int,int>>*[size];
+    writeLockArr = new atomic_int [size];
 
     for(int i = 0; i < size; i++)
     {
-        auto* vect = new vector<tuple<int,int>>;
-        bufferArr[i] = vect;
+        //writeLockArr[i] new atomic_int (0);
+        //vector<tuple<int,int>>* vect = new vector<tuple<int,int>>;
+        bufferArr[i] = new vector<tuple<int,int>>;
     }
 
     //bufferArr = new vector<tuple<int,int>>*;
