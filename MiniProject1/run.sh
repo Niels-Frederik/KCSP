@@ -1,4 +1,7 @@
 #!/bin/bash
+hashBits=3
+tuples=100000000
+
 for i in {0..1}
 do
     if [ $i == 0 ]
@@ -8,9 +11,5 @@ do
         echo Independent Algorithm
     fi
 
-    for j in {1..5}
-    do
-       echo "Settings: $j threads, 3 hashbits"
-        ./main $i 100000000 $j 3
-    done
+    ./main $i $tuples $hashBits
 done

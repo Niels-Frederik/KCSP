@@ -54,5 +54,9 @@ void Concurrent_Partitioning_Algorithm::ConcurrentPartition(vector<tuple<int, in
     {
         th.join();
     }
+
+    threads.clear();
+    delete(bufferArr);
+    delete(writeLockArr);
 }
 

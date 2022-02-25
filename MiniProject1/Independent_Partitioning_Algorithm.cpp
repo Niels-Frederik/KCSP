@@ -44,4 +44,5 @@ void Independent_Partitioning_Algorithm::IndependentPartition(vector<tuple<int, 
     {
         th.join();
     }
+    threadList.clear();
 }
