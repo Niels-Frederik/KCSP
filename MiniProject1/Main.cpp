@@ -7,11 +7,11 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    const int TUPLES = 10000000;
+    const int TUPLES = atoi(argv[1]);
     //const int THREADS = *argv[0];
     //const int HASHBITS = *argv[1];
-    const int THREADS = 4;
-    const int HASHBITS = 3;
+    const int THREADS = atoi(argv[2]);
+    const int HASHBITS = atoi(argv[3]);
 
     TupleGenerator tg;
     Concurrent_Partitioning_Algorithm cpa;

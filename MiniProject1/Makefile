@@ -1,18 +1,8 @@
-# Makefile for Writing Make Files Example
-
-# *****************************************************
-# Variables to control Makefile operation
-
 CC = g++
-CFLAGS = -Wall -g
+CFLAGS = -g -std=c++11 -Wall -O3
 
-# ****************************************************
+all:
+	$(CC) $(CFLAGS) -o Main Main.cpp TupleGenerator.cpp Independent_Partitioning_Algorithm.cpp Concurrent_Partitioning_Algorithm.cpp
 
-all: Independent_Partitioning_Algorithm Concurrent_Partitioning_Algorithm TupleGenerator
-
-main.o: main.cpp Independent_Partitioning_Algorithm.h Concurrent_Partitioning_Algorithm.h TupleGenerator.h
-	$(CC) $(CFLAGS) -c main.cpp
-
-Independent_Partitioning_Algorithm.o: Independent_Partitioning_Algorithm.h
-Concurrent_Partitioning_Algorithm.o: Concurrent_Partitioning_Algorithm.h
-TupleGenerator.o: TupleGenerator.h
+clean:
+	  $(RM) TupleGenerator.o Concurrent_Partitioning_Algorithm.o Independent_Partitioning_Algorithm.o Main.o Main

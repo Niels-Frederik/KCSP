@@ -1,7 +1,7 @@
-#include<vector>
-#include<tuple>
+#include "vector"
+#include "tuple"
 #include "TupleGenerator.h"
-#include <random>
+#include "random"
 
 using namespace std;
 
