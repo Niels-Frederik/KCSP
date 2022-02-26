@@ -8,7 +8,7 @@ using namespace std;
 class TupleGenerator {
 
 public:
-    vector<tuple<int,int> > GenerateTuples(int count);
+    vector<tuple<long long, long long> > GenerateTuples(int count);
 };
 
 #endif

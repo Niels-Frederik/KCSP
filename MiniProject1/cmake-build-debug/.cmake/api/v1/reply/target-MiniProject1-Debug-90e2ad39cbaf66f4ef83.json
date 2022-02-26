@@ -2,7 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "MiniProject1"
+			"path" : "MiniProject1.exe"
+		},
+		{
+			"path" : "MiniProject1.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -42,7 +45,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk"
+					"fragment" : "-g"
 				},
 				{
 					"fragment" : "-std=gnu++14"
@@ -52,7 +55,7 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "/Users/nieb/Documents/KCSP/KCSP/MiniProject1/."
+					"path" : "D:/UNI/8. Semester/KCSP/KCSP/MiniProject1/."
 				}
 			],
 			"language" : "CXX",
@@ -85,12 +88,16 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "MiniProject1",
-	"nameOnDisk" : "MiniProject1",
+	"nameOnDisk" : "MiniProject1.exe",
 	"paths" : 
 	{
 		"build" : ".",

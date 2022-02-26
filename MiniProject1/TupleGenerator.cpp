@@ -5,12 +5,13 @@
 
 using namespace std;
 
-vector<tuple<int, int>> TupleGenerator::GenerateTuples(int count) {
-    vector<tuple<int,int>> result;
+vector<tuple<long long, long long>> TupleGenerator::GenerateTuples(int count) {
+    vector<tuple<long long, long long>> result;
     result.reserve(count);
     random_device rd;  // Will be used to obtain a seed for the random number engine
-    mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-    uniform_int_distribution<> dis(INT32_MIN, INT32_MAX);
+    // Payload needs to be 16 bytes (tuple of long long)
+    mt19937_64 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+    uniform_int_distribution<> dis(LONG_LONG_MIN, LONG_LONG_MAX);
     for (int i = 0; i < count; i++)
     {
         result.emplace_back(make_tuple(dis(gen), dis(gen)));
