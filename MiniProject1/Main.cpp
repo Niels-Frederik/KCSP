@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 
     auto tuples = tg.GenerateTuples(TUPLES);
 
-    for(int i = 1; i <= 32; i++)
+    for(int i = 1; i <= 32; i*=2)
     {
         auto start = std::chrono::high_resolution_clock::now();
 
