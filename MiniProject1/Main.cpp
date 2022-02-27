@@ -13,7 +13,6 @@ int main(int argc, char** argv)
 
     TupleGenerator tg;
     Independent_Partitioning_Algorithm ipa;
-    Concurrent_Partitioning_Algorithm cpa;
 
     auto tuples = tg.GenerateTuples(TUPLES);
 
@@ -23,11 +22,12 @@ int main(int argc, char** argv)
 
         if(atoi(argv[1]) == 0)
         {
-            cpa.ConcurrentPartition(tuples, i, HASHBITS);
+            Concurrent_Partitioning_Algorithm cpa;
+            cpa.ConcurrentPartition(&tuples, i, HASHBITS);
         }
         else
         {
-            ipa.IndependentPartition(tuples, i, HASHBITS);
+            ipa.IndependentPartition(&tuples, i, HASHBITS);
         }
 
         auto finish = std::chrono::high_resolution_clock::now();
