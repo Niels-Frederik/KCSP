@@ -8,14 +8,23 @@
 #include<iostream>
 #include<barrier>
 #include<latch>
+#include<array>
 using namespace std;
 
+//between 0 and 2^hashBitNumber
 static uint32_t Hash(const tuple<long long, long long>& x, int hashBitNumber) {
     auto element = get<0>(x);
     const std::uint32_t knuth = 2654435769;
     const std::uint32_t y = element;
     return (y * knuth) >> (32 - hashBitNumber);
 }
+
+struct mutex_wrapper : std::mutex
+{
+    mutex_wrapper() = default;
+    mutex_wrapper(mutex_wrapper const&) noexcept : std::mutex() {}
+    bool operator==(mutex_wrapper const&other) noexcept { return this==&other; }
+};
 
 vector<tuple<long long, long long>> GenerateData(int count)
 {
@@ -34,26 +43,44 @@ vector<tuple<long long, long long>> GenerateData(int count)
 
 //==================================== CONCURRENT =====================================================================
 
-void ConcurrentRun(vector<tuple<long long, long long>>* tuples, vector<vector<tuple<long long, long long>>> buffer, int from, int to, vector<mutex>* locks, int hashBits)
+void ConcurrentRun(vector<tuple<long long, long long>>* tuples, vector<vector<tuple<long long, long long>>>* buffer, int from, int to, vector<mutex_wrapper>* locks, int hashBits)
 {
     for (int i = from; i < to; i++)
     {
         auto element = (*tuples)[i];
         uint32_t hash = Hash(element, hashBits);
-        std::lock_guard<std::mutex> guard((*locks)[hash]);
-        (buffer)[hash].emplace_back(element);
+        //std::lock_guard<std::mutex> guard((locks)[hash]);
+        //auto x = &(*locks)[hash];
+        //auto s = (*locks)[hash];
+        //auto s = (*locks)[hash-1];
+        //s.try_lock();
+        //std::lock_guard<std::mutex> guard((*locks)[hash]);
+        //s.lock();
+        (*buffer)[hash].emplace_back(element);
+        //s.unlock();
     }
+
+    auto x = 1;
 }
 
-void Concurrent(vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, vector<thread>* threads, const int& amountInEach)
+void Concurrent(vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, vector<thread>* threads, int amountInEach)
 {
     vector<vector<tuple<long long, long long>>> buffer;
-    int partitions = pow(2, hashBits);
-    vector<mutex> locks;
-    locks = std::vector<std::mutex>(partitions);
+    const int partitions = pow(2, hashBits);
+    vector<mutex_wrapper> locks;
+    //locks = std::vector<std::mutex>(partitions);
+    //auto locks = new mutex[partitions];
+    //mutex locks [partitions];
+    //mutex locks[partitions];
+    //array<mutex, 32> locks;
+    //auto s = &locks;
 
     for(int i = 0; i < partitions; i++)
     {
+        mutex_wrapper mw;
+        locks.emplace_back(mw);
+        //locks.emplace_back(x);
+        //locks.emplace_back(x);
         vector<tuple<long long, long long>> vect;
         int expectedSize = tuples->size()/partitions;
         buffer.emplace_back(vect);
@@ -65,14 +92,14 @@ void Concurrent(vector<tuple<long long, long long>>* tuples, int threadCount, in
     while(threadCount--)
     {
         int to = previousLast+amountInEach;
-        (*threads).emplace_back(thread(ConcurrentRun, tuples, buffer, previousLast, to, &locks, hashBits));
+        (*threads).emplace_back(thread(ConcurrentRun, tuples, &buffer, previousLast, to, &locks, hashBits));
         previousLast = to;
     }
 }
 
 //==================================== INDEPENDENT =====================================================================
 
-void IndependentRun(vector<tuple<long long, long long> >* tuples, int from, int to, int hashBits)  {
+void IndependentRun(vector<tuple<long long, long long>>* tuples, int from, int to, int hashBits)  {
     int partitions = pow (2, hashBits);
     vector<vector<tuple<long long, long long>>> buffer;
     for(int i = 0; i < (partitions); i++)
@@ -91,7 +118,7 @@ void IndependentRun(vector<tuple<long long, long long> >* tuples, int from, int 
     }
 }
 
-void Independent(vector<tuple<long long, long long> >* tuples, int threadCount, int hashBits, vector<thread>* threads, const int& amountInEach) {
+void Independent(vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, vector<thread>* threads, int amountInEach) {
     int previousLast = 0;
     while(threadCount--)
     {
