@@ -6,25 +6,25 @@
 #include<atomic>
 #include<algorithm>
 #include<iostream>
+#include<mutex>
 #include<barrier>
 #include<latch>
 #include<array>
 using namespace std;
 
-//between 0 and 2^hashBitNumber
+//1 => 2^1-1 = 0-1 (2)
+//2 => 2^2-1 = 0-3 (4)
+//3 => 2^3-1 = 0-7 (8)
+//4 => 2^4-1 = 0-15 (16)
+//5 => 2^5-1 = 0-31 (32)
+
+//between 0 and 2^hashBitNumber-1
 static uint32_t Hash(const tuple<long long, long long>& x, int hashBitNumber) {
     auto element = get<0>(x);
     const std::uint32_t knuth = 2654435769;
     const std::uint32_t y = element;
     return (y * knuth) >> (32 - hashBitNumber);
 }
-
-struct mutex_wrapper : std::mutex
-{
-    mutex_wrapper() = default;
-    mutex_wrapper(mutex_wrapper const&) noexcept : std::mutex() {}
-    bool operator==(mutex_wrapper const&other) noexcept { return this==&other; }
-};
 
 vector<tuple<long long, long long>> GenerateData(int count)
 {
@@ -43,44 +43,29 @@ vector<tuple<long long, long long>> GenerateData(int count)
 
 //==================================== CONCURRENT =====================================================================
 
-void ConcurrentRun(vector<tuple<long long, long long>>* tuples, vector<vector<tuple<long long, long long>>>* buffer, int from, int to, vector<mutex_wrapper>* locks, int hashBits)
+void ConcurrentRun(const vector<tuple<long long, long long>>* tuples, vector<vector<tuple<long long, long long>>>* buffer, int from, int to, vector<mutex>& locks, int hashBits)
 {
     for (int i = from; i < to; i++)
     {
         auto element = (*tuples)[i];
         uint32_t hash = Hash(element, hashBits);
-        //std::lock_guard<std::mutex> guard((locks)[hash]);
-        //auto x = &(*locks)[hash];
-        //auto s = (*locks)[hash];
-        //auto s = (*locks)[hash-1];
-        //s.try_lock();
-        //std::lock_guard<std::mutex> guard((*locks)[hash]);
-        //s.lock();
+        std::lock_guard<std::mutex> guard(locks[hash]);
         (*buffer)[hash].emplace_back(element);
-        //s.unlock();
     }
 
     auto x = 1;
 }
 
-void Concurrent(vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, vector<thread>* threads, int amountInEach)
+void Concurrent(const vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, int amountInEach)
 {
+    vector<thread> threads;
     vector<vector<tuple<long long, long long>>> buffer;
     const int partitions = pow(2, hashBits);
-    vector<mutex_wrapper> locks;
-    //locks = std::vector<std::mutex>(partitions);
-    //auto locks = new mutex[partitions];
-    //mutex locks [partitions];
-    //mutex locks[partitions];
-    //array<mutex, 32> locks;
-    //auto s = &locks;
+    vector<mutex> locks;
+    locks = vector<mutex>(partitions+1);
 
     for(int i = 0; i < partitions; i++)
     {
-        mutex_wrapper mw;
-        locks.emplace_back(mw);
-        //locks.emplace_back(x);
-        //locks.emplace_back(x);
         vector<tuple<long long, long long>> vect;
         int expectedSize = tuples->size()/partitions;
         buffer.emplace_back(vect);
@@ -92,14 +77,21 @@ void Concurrent(vector<tuple<long long, long long>>* tuples, int threadCount, in
     while(threadCount--)
     {
         int to = previousLast+amountInEach;
-        (*threads).emplace_back(thread(ConcurrentRun, tuples, &buffer, previousLast, to, &locks, hashBits));
+        threads.emplace_back(thread(ConcurrentRun, tuples, &buffer, previousLast, to, ref(locks), hashBits));
         previousLast = to;
     }
+
+    //wait for execution
+    for (auto& th : threads)
+    {
+        th.join();
+    }
+    threads.clear();
 }
 
 //==================================== INDEPENDENT =====================================================================
 
-void IndependentRun(vector<tuple<long long, long long>>* tuples, int from, int to, int hashBits)  {
+void IndependentRun(const vector<tuple<long long, long long>>* tuples, int from, int to, int hashBits)  {
     int partitions = pow (2, hashBits);
     vector<vector<tuple<long long, long long>>> buffer;
     for(int i = 0; i < (partitions); i++)
@@ -118,14 +110,22 @@ void IndependentRun(vector<tuple<long long, long long>>* tuples, int from, int t
     }
 }
 
-void Independent(vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, vector<thread>* threads, int amountInEach) {
+void Independent(const vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, int amountInEach) {
+    vector<thread> threads;
     int previousLast = 0;
     while(threadCount--)
     {
         int to = previousLast+amountInEach;
-        (*threads).emplace_back(thread(IndependentRun, tuples, previousLast, to, hashBits));
+        (threads).emplace_back(thread(IndependentRun, tuples, previousLast, to, hashBits));
         previousLast = to;
     }
+
+    //wait for execution
+    for (auto& th : threads)
+    {
+        th.join();
+    }
+    threads.clear();
 }
 
 int main(int argc, char** argv)
@@ -135,26 +135,19 @@ int main(int argc, char** argv)
     const int THREADS = atoi(argv[3]);
     const int HASHBITS = atoi(argv[4]);
 
-    vector<thread> threads;
-    auto tuples = GenerateData(TUPLES);
+    const vector<tuple<long long, long long>> tuples = GenerateData(TUPLES);
     cout << "Done generating tuples" << endl;
     int amountInEach = tuples.size()/THREADS;
     auto start = std::chrono::high_resolution_clock::now();
     if(ALGORITHM == 0)
     {
-        Concurrent(&tuples, THREADS, HASHBITS, &threads, amountInEach);
+        Concurrent(&tuples, THREADS, HASHBITS, amountInEach);
     }
     else
     {
-        Independent(&tuples, THREADS, HASHBITS, &threads, amountInEach);
+        Independent(&tuples, THREADS, HASHBITS, amountInEach);
     }
 
-    //wait for execution
-    for (auto& th : threads)
-    {
-        th.join();
-    }
-    threads.clear();
 
     //print running time
     auto finish = std::chrono::high_resolution_clock::now();
