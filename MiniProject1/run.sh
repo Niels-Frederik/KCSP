@@ -1,6 +1,5 @@
 #!/bin/bash
-hashBits=3
-tuples=100000000
+tuples=1000000
 
 for i in {0..1}
 do
@@ -11,5 +10,12 @@ do
         echo Independent Algorithm
     fi
 
-    ./main $i $tuples $hashBits
+    for j in 1 2 4 8 16 32
+    do
+        for h in {1..4}
+        do
+            echo Threads: $j, HashBits: $h
+            ./Program $i $tuples $j $h
+        done
+    done
 done
