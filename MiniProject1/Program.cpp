@@ -42,20 +42,20 @@ vector<tuple<long long, long long>> GenerateData(int count)
 
 //==================================== CONCURRENT =====================================================================
 
-void ConcurrentRun(const vector<tuple<long long, long long>>& tuples, vector<vector<tuple<long long, long long>>>* buffer, int from, int to, vector<mutex>& locks, int hashBits)
+void ConcurrentRun(const vector<tuple<long long, long long>>* tuples, vector<vector<tuple<long long, long long>>>* buffer, int from, int to, vector<mutex>& locks, int hashBits)
 {
     for (int i = from; i < to; i++)
     {
-        auto element = (tuples)[i];
+        auto element = (*tuples)[i];
         uint32_t hash = Hash(element, hashBits);
-        //std::lock_guard<std::mutex> guard(locks[hash]);
-        locks[hash].lock();
+        std::lock_guard<std::mutex> guard(locks[hash]);
+        //locks[hash].lock();
         (*buffer)[hash].emplace_back(element);
-        locks[hash].unlock();
+        //locks[hash].unlock();
     }
 }
 
-void Concurrent(const vector<tuple<long long, long long>>& tuples, int threadCount, int hashBits, int amountInEach)
+void Concurrent(const vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, int amountInEach)
 {
     vector<thread> threads;
     vector<vector<tuple<long long, long long>>> buffer;
@@ -66,7 +66,7 @@ void Concurrent(const vector<tuple<long long, long long>>& tuples, int threadCou
     for(int i = 0; i < partitions; i++)
     {
         vector<tuple<long long, long long>> vect;
-        int expectedSize = tuples.size()/partitions;
+        int expectedSize = tuples->size()/partitions;
         buffer.emplace_back(vect);
         // Allocate 50% more than the expected need
         buffer[i].reserve(expectedSize + expectedSize / 2);
@@ -138,16 +138,17 @@ int main(int argc, char** argv)
     auto start = std::chrono::high_resolution_clock::now();
     if(ALGORITHM == 0)
     {
-        Concurrent(ref(tuples), THREADS, HASHBITS, amountInEach);
+        Concurrent(&tuples, THREADS, HASHBITS, amountInEach);
     }
     else
     {
         Independent(&tuples, THREADS, HASHBITS, amountInEach);
     }
 
-
     //print running time
     auto finish = std::chrono::high_resolution_clock::now();
-    auto microseconds = std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
-    cout << microseconds.count() << endl;
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
+    auto throughput = (TUPLES/(milliseconds.count())*1000)/1000000;
+    cout << throughput << endl;
+    //cout << microseconds.count() << endl;
 }

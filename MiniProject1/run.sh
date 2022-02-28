@@ -10,12 +10,13 @@ do
         echo Independent Algorithm
     fi
 
-    for j in 1 2 4 8 16 32 64
+    for j in 1 2 4 8 16 32
     do
         for h in {1..4}
         do
-            echo Threads: $j, HashBits: $h
-            for g in {0..8}
+            let var=2**$h
+            echo Threads: $j, HashBits: $var
+            for g in {0..10}
             do
                 ./Program $i $tuples $j $h
             done

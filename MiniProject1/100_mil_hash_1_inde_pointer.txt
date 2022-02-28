@@ -1,0 +1,55 @@
+Independent Algorithm
+Threads: 1, HashBits: 1
+963
+955
+957
+960
+954
+952
+960
+966
+949
+Threads: 2, HashBits: 1
+549
+551
+545
+565
+550
+545
+555
+546
+555
+Threads: 4, HashBits: 1
+450
+425
+427
+436
+436
+470
+435
+464
+412
+Threads: 8, HashBits: 1
+417
+415
+424
+418
+413
+405
+420
+412
+468
+Threads: 16, HashBits: 1
+432
+431
+436
+412
+419
+417
+440
+422
+407
+Independent Algorithm
+Threads: 1, HashBits: 1
+1025
+1031
