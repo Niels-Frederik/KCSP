@@ -1,5 +1,5 @@
 #!/bin/bash
-tuples=1000000
+tuples=10000000
 
 for i in {0..1}
 do
@@ -15,7 +15,10 @@ do
         for h in {1..4}
         do
             echo Threads: $j, HashBits: $h
-            ./Program $i $tuples $j $h
+            for g in {0..10}
+            do
+                ./Program $i $tuples $j $h
+            done
         done
     done
 done

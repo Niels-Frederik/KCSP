@@ -84,7 +84,7 @@ void Concurrent(const vector<tuple<long long, long long>>& tuples, int threadCou
     {
         th.join();
     }
-    threads.clear();
+    //threads.clear();
 }
 
 //==================================== INDEPENDENT =====================================================================
@@ -123,7 +123,7 @@ void Independent(const vector<tuple<long long, long long>>& tuples, int threadCo
     {
         th.join();
     }
-    threads.clear();
+    //threads.clear();
 }
 
 int main(int argc, char** argv)
@@ -134,7 +134,6 @@ int main(int argc, char** argv)
     const int HASHBITS = atoi(argv[4]);
 
     const vector<tuple<long long, long long>> tuples = GenerateData(TUPLES);
-    cout << "Done generating tuples" << endl;
     int amountInEach = tuples.size()/THREADS;
     auto start = std::chrono::high_resolution_clock::now();
     if(ALGORITHM == 0)
@@ -150,5 +149,5 @@ int main(int argc, char** argv)
     //print running time
     auto finish = std::chrono::high_resolution_clock::now();
     auto microseconds = std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
-    cout << microseconds.count() << "ms\n";
+    cout << microseconds.count() << endl;
 }
