@@ -43,18 +43,18 @@ vector<tuple<long long, long long>> GenerateData(int count)
 
 //==================================== CONCURRENT =====================================================================
 
-void ConcurrentRun(const vector<tuple<long long, long long>>& tuples, vector<vector<tuple<long long, long long>>>* buffer, int from, int to, vector<mutex>& locks, int hashBits)
+void ConcurrentRun(const vector<tuple<long long, long long>>* tuples, vector<vector<tuple<long long, long long>>>* buffer, int from, int to, vector<mutex>& locks, int hashBits)
 {
     for (int i = from; i < to; i++)
     {
-        auto element = tuples[i];
+        auto element = (*tuples)[i];
         uint32_t hash = Hash(element, hashBits);
         std::lock_guard<std::mutex> guard(locks[hash]);
         (*buffer)[hash].emplace_back(element);
     }
 }
 
-void Concurrent(const vector<tuple<long long, long long>>& tuples, int threadCount, int hashBits, int amountInEach)
+void Concurrent(const vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, int amountInEach)
 {
     vector<thread> threads;
     vector<vector<tuple<long long, long long>>> buffer;
@@ -65,7 +65,7 @@ void Concurrent(const vector<tuple<long long, long long>>& tuples, int threadCou
     for(int i = 0; i < partitions; i++)
     {
         vector<tuple<long long, long long>> vect;
-        int expectedSize = tuples.size()/partitions;
+        int expectedSize = tuples->size()/partitions;
         buffer.emplace_back(vect);
         // Allocate 50% more than the expected need
         buffer[i].reserve(expectedSize + expectedSize / 2);
@@ -78,7 +78,6 @@ void Concurrent(const vector<tuple<long long, long long>>& tuples, int threadCou
         threads.emplace_back(thread(ConcurrentRun, tuples, &buffer, previousLast, to, ref(locks), hashBits));
         previousLast = to;
     }
-
     //wait for execution
     for (auto& th : threads)
     {
@@ -89,7 +88,7 @@ void Concurrent(const vector<tuple<long long, long long>>& tuples, int threadCou
 
 //==================================== INDEPENDENT =====================================================================
 
-void IndependentRun(const vector<tuple<long long, long long>>& tuples, int from, int to, int hashBits)  {
+void IndependentRun(const vector<tuple<long long, long long>>* tuples, int from, int to, int hashBits)  {
     int partitions = pow (2, hashBits);
     vector<vector<tuple<long long, long long>>> buffer;
     for(int i = 0; i < (partitions); i++)
@@ -102,13 +101,13 @@ void IndependentRun(const vector<tuple<long long, long long>>& tuples, int from,
 
     for (int i = from; i < to; i++)
     {
-        auto element = tuples[i];
+        auto element = (*tuples)[i];
         int partition = Hash(element, hashBits);
         buffer[partition].emplace_back(element);
     }
 }
 
-void Independent(const vector<tuple<long long, long long>>& tuples, int threadCount, int hashBits, int amountInEach) {
+void Independent(const vector<tuple<long long, long long>>* tuples, int threadCount, int hashBits, int amountInEach) {
     vector<thread> threads;
     int previousLast = 0;
     while(threadCount--)
@@ -138,11 +137,11 @@ int main(int argc, char** argv)
     auto start = std::chrono::high_resolution_clock::now();
     if(ALGORITHM == 0)
     {
-        Concurrent(ref(tuples), THREADS, HASHBITS, amountInEach);
+        Concurrent(&tuples, THREADS, HASHBITS, amountInEach);
     }
     else
     {
-        Independent(ref(tuples), THREADS, HASHBITS, amountInEach);
+        Independent(&tuples, THREADS, HASHBITS, amountInEach);
     }
 
 
