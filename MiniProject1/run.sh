@@ -1,5 +1,5 @@
 #!/bin/bash
-tuples=18000000
+tuples=1000000
 
 for i in {0..1}
 do
@@ -10,12 +10,11 @@ do
         echo Independent Algorithm
     fi
 
-    for j in 1 2 4 8 16 32
+    for j in 1 2 4 8
     do
-        for h in {1..4}
+        for h in {1..18}
         do
-            let var=2**$h
-            echo Threads: $j, HashBits: $var
+            echo T$j, H$h
             for g in {0..10}
             do
                 ./Program $i $tuples $j $h
