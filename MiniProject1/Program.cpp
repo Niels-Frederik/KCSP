@@ -33,13 +33,11 @@ vector<tuple<long long, long long>> GenerateData(int count, int hashBits)
 
 //==================================== CONCURRENT =====================================================================
 
-void ConcurrentRun(const vector<tuple<long long, long long>>* tuples, vector<vector<tuple<long long, long long>>>* buffer, int from, int to, array<atomic<size_t>, 32>* arr, int hashBits)
+void ConcurrentRun(const vector<tuple<long long, long long>>* tuples, vector<vector<tuple<long long, long long>>>* buffer, int from, int to, array<atomic<size_t>, 262144>* arr, int hashBits)
 {
     for (int i = from; i < to; i++)
     {
         auto element = (*tuples)[i];
-        //uint32_t hash = Hash(element, hashBits);
-        //auto hash = Hash(element, hashBits);
         auto key = get<0>(element);
         int writeIndex = (*arr)[key]++;
         (*buffer)[key][writeIndex] = element;
@@ -51,7 +49,7 @@ void Concurrent(const vector<tuple<long long, long long>>* tuples, int threadCou
     vector<thread> threads;
     vector<vector<tuple<long long, long long>>> buffer;
 
-    array<atomic_size_t, 32> arr{};
+    array<atomic_size_t, 262144> arr{};
     int expectedSize = tuples->size()/hashBits;
 
     for(int i = 0; i < hashBits; i++)
@@ -59,7 +57,7 @@ void Concurrent(const vector<tuple<long long, long long>>* tuples, int threadCou
         vector<tuple<long long, long long>> vect;
         buffer.emplace_back(vect);
         // Allocate 50% more than the expected need
-        buffer[i].reserve(expectedSize + expectedSize / 2);
+        buffer[i].reserve(expectedSize + expectedSize * 0.5);
     }
 
     int previousLast = 0;
@@ -83,9 +81,9 @@ void IndependentRun(const vector<tuple<long long, long long>>* tuples, int from,
     for(int i = 0; i < hashBits; i++)
     {
         vector<tuple<long long, long long>> vect;
-        int expectedSize = to-from/hashBits;
+        //int expectedSize = to-from/hashBits;
         buffer.emplace_back(vect);
-        buffer[i].reserve(expectedSize + expectedSize / 2);
+        //buffer[i].reserve(expectedSize + expectedSize*1);
     }
 
     for (int i = from; i < to; i++)
@@ -118,7 +116,8 @@ int main(int argc, char** argv)
     const int ALGORITHM = atoi(argv[1]);
     const int TUPLES = atoi(argv[2]);
     const int THREADS = atoi(argv[3]);
-    const int HASHBITS = atoi(argv[4]);
+    const int HASHBITS = pow(2, atoi(argv[4]));
+
 
     const vector<tuple<long long, long long>> tuples = GenerateData(TUPLES, HASHBITS);
     int amountInEach = tuples.size()/THREADS;

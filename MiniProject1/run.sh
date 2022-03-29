@@ -1,5 +1,5 @@
 #!/bin/bash
-tuples=1000000
+tuples=18000000
 
 for i in {0..1}
 do
@@ -10,9 +10,9 @@ do
         echo Independent Algorithm
     fi
 
-    for j in 1 2 4 8
+    for j in 1 2 4 8 16 32
     do
-        for h in {1..18}
+        for h in {16..18}
         do
             echo T$j, H$h
             for g in {0..10}
