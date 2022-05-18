@@ -7,7 +7,6 @@
 #include<algorithm>
 #include<iostream>
 #include<mutex>
-#include<barrier>
 #include<array>
 using namespace std;
 
@@ -81,7 +80,8 @@ void IndependentRun(const vector<tuple<long long, long long>>* tuples, int from,
     for(int i = 0; i < hashBits; i++)
     {
         vector<tuple<long long, long long>> vect;
-        //int expectedSize = to-from/hashBits;
+        int expectedSize = to-from/hashBits;
+        vect.reserve(expectedSize + expectedSize * 0.5);
         buffer.emplace_back(vect);
         //buffer[i].reserve(expectedSize + expectedSize*1);
     }

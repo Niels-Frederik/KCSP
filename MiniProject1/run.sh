@@ -17,7 +17,7 @@ do
             echo T$j, H$h
             for g in {0..10}
             do
-                ./Program $i $tuples $j $h
+                ./Program 1 $tuples $j $h
             done
         done
     done
