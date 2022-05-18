@@ -1,10 +1,10 @@
 # ninja log v5
-833	930	1645815902362281746	MiniProject1	744be27c5e181950
-1	134	1645877314970018925	build.ninja	3c6762716fa44fec
-1	1273	1645877334830642356	CMakeFiles/MiniProject1.dir/TupleGenerator.cpp.o	b06deca9c9b30c48
-0	1356	1645877334911147480	CMakeFiles/MiniProject1.dir/Main.cpp.o	c61f7a22bbdf689a
-0	1403	1645877334958534662	CMakeFiles/MiniProject1.dir/Independent_Partitioning_Algorithm.cpp.o	bce09426e4fa913c
-0	1428	1645877334988353078	CMakeFiles/MiniProject1.dir/Concurrent_Partitioning_Algorithm.cpp.o	ba44f15c13a3d546
-1428	1496	1645877335055771474	MiniProject1	744be27c5e181950
-2	948	1645877373671397306	CMakeFiles/MiniProject1.dir/Main.cpp.o	c61f7a22bbdf689a
-948	1011	1645877373737015118	MiniProject1	744be27c5e181950
+2336	2396	1648552687329245769	MiniProject1	8d19d5171d9f2880
+1	2336	1648552687257947692	CMakeFiles/MiniProject1.dir/Program.cpp.o	203c3ac8d2f299f4
+4	1300	1645885131579716635	CMakeFiles/MiniProject1.dir/TupleGenerator.cpp.o	b06deca9c9b30c48
+1	1426	1645893688194477470	CMakeFiles/MiniProject1.dir/Concurrent_Partitioning_Algorithm.cpp.o	ba44f15c13a3d546
+0	151	1646074720377069299	build.ninja	3c6762716fa44fec
+1	733	1645894105800871905	CMakeFiles/MiniProject1.dir/Main.cpp.o	c61f7a22bbdf689a
+3	779	1645886720635267115	CMakeFiles/MiniProject1.dir/Independent_Partitioning_Algorithm.cpp.o	bce09426e4fa913c
+2	1795	1648552709986570548	CMakeFiles/MiniProject1.dir/Program.cpp.o	203c3ac8d2f299f4
+1795	1853	1648552710056601735	MiniProject1	8d19d5171d9f2880
